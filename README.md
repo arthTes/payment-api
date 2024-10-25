@@ -20,6 +20,7 @@ This command will use your database for build project with this local variables 
 
 - Turn off you database container
 - Run docker-compose up -d
+- migrate the database in migration file [doc](https://github.com/arthTes/payment-api/blob/main/scripts/database/migrations/init_db.sql)
 
 Use the postman collection for test
 
