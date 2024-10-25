@@ -2,8 +2,6 @@ module github.com/payment-api
 
 go 1.22
 
-toolchain go1.22.8
-
 require (
 	github.com/google/uuid v1.6.0
 	github.com/spf13/viper v1.18.1
