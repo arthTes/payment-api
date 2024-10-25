@@ -6,4 +6,4 @@ run:
 test:
 	go test ./...
 docker-compose-up:
-	docker-compose-up -d --force-recreate
+	docker-compose up -d --force-recreate
