@@ -1,0 +1,89 @@
+{
+	"info": {
+		"_postman_id": "7f048f1b-03bc-4a16-a9f7-6fad1c8b1b1f",
+		"name": "payment-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3515339"
+	},
+	"item": [
+		{
+			"name": "create-account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"document_number\": \"any-document-number\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/accounts",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/accounts/ce55b819-e9ee-4090-bafa-2cd5e6584f56",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"accounts",
+						"ce55b819-e9ee-4090-bafa-2cd5e6584f56"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-transaction",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"account_id\": \"ce55b819-e9ee-4090-bafa-2cd5e6584f56\",\r\n    \"operation_type\": 1,\r\n    \"amount\": 10.1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/transactions",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
