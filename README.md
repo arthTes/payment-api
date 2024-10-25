@@ -30,7 +30,7 @@ service running in :8080
 ### Documentation
 
 API Documentation in :
-[doc](https://github.com/arthTes/payment-api/docs/payment-practice-api.yaml)
+[doc](https://github.com/arthTes/payment-api/tree/main/docs/payment-api.yaml)
 
 ### Future Work
 ```
