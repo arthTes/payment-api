@@ -4,7 +4,7 @@ API with functionality of Payment and Managing accounts.
 
 ### Prerequisites:
 ```
-Go 1.21
+Go 1.22
 Postgresql
 Docker-compose
 ```
