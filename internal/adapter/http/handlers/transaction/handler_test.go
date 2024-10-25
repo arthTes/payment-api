@@ -104,7 +104,7 @@ func Test_transactionCreateHandler(t *testing.T) {
 			router := gin.Default()
 			SetTransactionRoutes(ctx, router, scenario.useCase)
 
-			request, _ := http.NewRequest(http.MethodPost, "/transactions", bytes.NewBuffer(scenario.input))
+			request, _ := http.NewRequest(http.MethodPost, "/api/v1/transactions", bytes.NewBuffer(scenario.input))
 
 			router.ServeHTTP(rr, request)
 

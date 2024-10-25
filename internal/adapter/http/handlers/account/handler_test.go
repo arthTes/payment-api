@@ -90,7 +90,7 @@ func Test_AccountCreateHandler(t *testing.T) {
 			router := gin.Default()
 			SetAccountRoutes(ctx, router, scenario.useCase)
 
-			request, _ := http.NewRequest(http.MethodPost, "/accounts", bytes.NewBuffer(scenario.input))
+			request, _ := http.NewRequest(http.MethodPost, "/api/v1/accounts", bytes.NewBuffer(scenario.input))
 
 			router.ServeHTTP(rr, request)
 
@@ -150,7 +150,7 @@ func Test_AccountGetHandler(t *testing.T) {
 			router := gin.Default()
 			SetAccountRoutes(ctx, router, scenario.useCase)
 
-			request, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("/accounts/%s", scenario.input), nil)
+			request, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("/api/v1/accounts/%s", scenario.input), nil)
 
 			router.ServeHTTP(rr, request)
 
