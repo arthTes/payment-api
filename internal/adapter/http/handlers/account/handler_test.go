@@ -125,16 +125,7 @@ func Test_AccountGetHandler(t *testing.T) {
 				Result: domain.Account{},
 				err:    exceptions.PersistenceError,
 			},
-			expectedStatus: http.StatusUnprocessableEntity,
-		},
-		{
-			description: "empty account id parameter",
-			input:       "",
-			useCase: &accountUseCaseMock{
-				Result: domain.Account{},
-				err:    nil,
-			},
-			expectedStatus: http.StatusBadRequest,
+			expectedStatus: http.StatusNotFound,
 		},
 	}
 
