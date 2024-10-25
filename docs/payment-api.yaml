@@ -1,0 +1,123 @@
+swagger: "3.0"
+info:
+  title: Payment Practice API
+  description: API for manage user payment transaction and create new accounts.
+  version: 1.0.0
+
+host: payment-api.com
+basePath: /api/v1/
+schemes:
+  - https
+
+paths:
+  /accounts:
+    post:
+      summary: Create user account with document number.
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: "body"
+          description: "Client document number to save in accounts"
+          required: true
+          schema:
+            $ref: "#/definitions/AccountRequest"
+
+      responses:
+        200:
+          description: Ok
+          schema:
+            items:
+              $ref: "#/definitions/Account"
+        400:
+          description: Bad Request
+          schema:
+            items:
+              $ref: "#/definitions/Error"
+
+  /accounts/{accountId}:
+    get:
+      summary: Get user account by account id.
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: accountId
+          description: Account ID
+          required: true
+          type: string
+
+      responses:
+        200:
+          description: OK
+          schema:
+            items:
+              $ref: "#/definitions/Account"
+        404:
+          description: User account Not Found
+          schema:
+            items:
+              $ref: "#/definitions/Error"
+
+  /transactions:
+    post:
+      summary: Publish user account payment transaction
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: "body"
+          description: "User account client payment transaction"
+          required: true
+          schema:
+            $ref: "#/definitions/Transaction"
+      responses:
+        200:
+          description: OK
+          schema:
+            items:
+              $ref: "#/definitions/Account"
+        404:
+          description: User account Not Found or Operation Type id not found
+          schema:
+            items:
+              $ref: "#/definitions/Error"
+        422:
+          description: Cannot process transaction
+          schema:
+            items:
+              $ref: "#/definitions/Error"
+
+definitions:
+  AccountRequest:
+    type: object
+    properties:
+      document_number:
+        type: string
+
+  Account:
+    type: object
+    properties:
+      id:
+        type: string
+      document_number:
+        type: string
+
+  Transaction:
+    type: object
+    properties:
+      account_id:
+        type: string
+      operation_type_id:
+        type: integer
+      amount:
+        type: number
+
+
+  Error:
+    type: object
+    properties:
+      message:
+        type: string
+      reason:
+        type: string

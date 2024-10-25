@@ -1,0 +1,6 @@
+server:
+  port: 8080
+postgres:
+  url: "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
+telemetry:
+  hostname: "http://127.0.0.1:14268"
