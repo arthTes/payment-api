@@ -24,23 +24,41 @@ func (r *transactionRepositoryMock) Push(_ context.Context, _ domain.Transaction
 
 func Test_TransactionCreateUseCase(t *testing.T) {
 	scenarios := []struct {
-		description   string
-		input         domain.Transaction
-		repository    repository.Transaction
-		expectedError error
+		description           string
+		input                 domain.Transaction
+		accountRepository     repository.Account
+		transactionRepository repository.Transaction
+		expectedError         error
 	}{
 		{
 			description: "success",
 			input:       domain.Transaction{},
-			repository: &transactionRepositoryMock{
+			accountRepository: &accountRepositoryMock{
+				err: nil,
+			},
+			transactionRepository: &transactionRepositoryMock{
 				err: nil,
 			},
 			expectedError: nil,
 		},
 		{
+			description: "account-not-found",
+			input:       domain.Transaction{},
+			accountRepository: &accountRepositoryMock{
+				err: exceptions.EntityNotFoundError,
+			},
+			transactionRepository: &transactionRepositoryMock{
+				err: errors.New("persist error"),
+			},
+			expectedError: exceptions.EntityNotFoundError,
+		},
+		{
 			description: "any-persist-error",
 			input:       domain.Transaction{},
-			repository: &transactionRepositoryMock{
+			accountRepository: &accountRepositoryMock{
+				err: nil,
+			},
+			transactionRepository: &transactionRepositoryMock{
 				err: errors.New("persist error"),
 			},
 			expectedError: exceptions.PersistenceError,
@@ -55,7 +73,7 @@ func Test_TransactionCreateUseCase(t *testing.T) {
 			traceProvider := trace.NewTracerProvider(trace.WithSampler(trace.AlwaysSample()))
 			traceProvider.Tracer(ctx.Value("service-name").(string))
 
-			TransactionUseCase := NewTransactionUseCase(scenario.repository)
+			TransactionUseCase := NewTransactionUseCase(scenario.accountRepository, scenario.transactionRepository)
 
 			err := TransactionUseCase.Create(ctx, scenario.input)
 

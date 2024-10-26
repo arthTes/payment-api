@@ -9,7 +9,6 @@ import (
 	"github.com/google/uuid"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/payment-api/infrastructure/exceptions"
 	"github.com/payment-api/infrastructure/logger"
 	"github.com/payment-api/infrastructure/telemetry"
 	"github.com/payment-api/internal/domain"
@@ -26,18 +25,7 @@ func getAccount(ctx context.Context, accountUseCase usecase.AccountUseCase) gin.
 		ctx, span := telemetry.Span(ctx, "http:handler:getAccount", trace.SpanKindServer)
 		defer span.End()
 
-		accountID := c.Param("account_id")
-		if accountID == "" {
-			telemetry.ErrorSpan(span, exceptions.InvalidParameterError)
-			logger.Error(logger.HTTPError, "missing account ID")
-
-			c.JSON(http.StatusBadRequest, map[string]string{
-				"message": "invalid parameters",
-			})
-			return
-		}
-
-		persistedAccount, err := accountUseCase.Get(ctx, accountID)
+		persistedAccount, err := accountUseCase.Get(ctx, c.Param("account_id"))
 		if err != nil {
 			telemetry.ErrorSpan(span, err)
 			logger.Error(logger.HTTPError, "ErrorSpan creating account")

@@ -21,6 +21,7 @@ type (
 
 type (
 	TransactionUcImpl struct {
+		accountRepository     repository.Account
 		transactionRepository repository.Transaction
 	}
 )
@@ -29,8 +30,14 @@ func (t TransactionUcImpl) Create(ctx context.Context, transaction domain.Transa
 	ctx, span := telemetry.Span(ctx, "useCase:transaction:Create", trace.SpanKindInternal)
 	defer span.End()
 
-	err := t.transactionRepository.Push(ctx, transaction)
+	_, err := t.accountRepository.Get(ctx, transaction.AccountID)
 	if err != nil {
+		telemetry.ErrorSpan(span, err)
+		logger.Error(logger.ServerError, "account not found", err.Error())
+		return exceptions.EntityNotFoundError
+	}
+
+	if err := t.transactionRepository.Push(ctx, transaction); err != nil {
 		telemetry.ErrorSpan(span, err)
 		logger.Error(logger.ServerError, fmt.Sprintf("cannot create transaction error: %v", err.Error()))
 		return exceptions.PersistenceError
@@ -39,8 +46,9 @@ func (t TransactionUcImpl) Create(ctx context.Context, transaction domain.Transa
 	return nil
 }
 
-func NewTransactionUseCase(transactionRepository repository.Transaction) TransactionUseCase {
+func NewTransactionUseCase(accountRepository repository.Account, transactionRepository repository.Transaction) TransactionUseCase {
 	return TransactionUcImpl{
+		accountRepository:     accountRepository,
 		transactionRepository: transactionRepository,
 	}
 }

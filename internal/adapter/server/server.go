@@ -39,7 +39,7 @@ func New(ctx context.Context, cfg config.Configuration) (a Server) {
 	a.services.account = usecase.NewAccountUseCase(accountRepository)
 
 	transactionRepository := repository.NewTransactionRepository(*pgRepository)
-	a.services.transaction = usecase.NewTransactionUseCase(transactionRepository)
+	a.services.transaction = usecase.NewTransactionUseCase(accountRepository, transactionRepository)
 
 	return a
 }
